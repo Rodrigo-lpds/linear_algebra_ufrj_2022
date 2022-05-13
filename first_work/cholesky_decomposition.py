@@ -13,5 +13,8 @@ for i in range(len(A)):
     for k in range(0,i):
       generic_sum+= (A[i][k] * A[j][k])
     A[j][i] = (1/A[i][i]) * (A[i][j] - generic_sum)
+for i in range(0, len(A)):
+  for j in range(i+1,len(A)):
+    A[i][j] = 0
 
 print(A)
