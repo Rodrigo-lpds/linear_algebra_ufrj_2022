@@ -1,0 +1,4 @@
+def decompose(A):
+  '''
+    
+  '''
