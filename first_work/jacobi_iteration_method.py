@@ -2,6 +2,8 @@
 #to do 
 # check if converges
 # split sum loops into separate functions
+#check if iteration can be done
+
 
 import math 
 
@@ -11,7 +13,6 @@ X_0 = [1,1,1]
 X_1 = [0,0,0]
 R = 0
 for solution in range((1)):
-  if solution +1 !=
   for i in range(len(X_0)):
     generic_sum = 0
     for j in range(0,len(X_0)):
