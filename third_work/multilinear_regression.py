@@ -5,8 +5,8 @@ sys.path.insert(0,"..")
 
 from first_work.lu_decomposition import LU
 #coordinates 
-X = [-2,0,1]
-Y = [-27,-1,0]
+X = [1,2.5,4]
+Y = [2,3.5,8]
 n = 3
 P = [[0 for i in range(n)] for j in range(n)]
 
@@ -17,3 +17,9 @@ for i in range(n):
 decomposition = LU(P, Y)
 B = decomposition.solution()
 print(B)
+
+x = 3.25
+estimate_value = B[0]
+for i in range(1,len(B)):
+  estimate_value += B[i]* x**i
+print(estimate_value)
