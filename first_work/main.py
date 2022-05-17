@@ -1,3 +1,6 @@
-import lu_decomposition as Lu
+from lu_decomposition import LU
+from cholesky_decomposition import CholeskyDecomposition
 
-Lu.Decompose([[1,2,2],[4,4,2],[4,6,4]])
+A = [[1,0.2,0.4],[0.2,1,0.5],[0.4,0.5,1]]
+cd = CholeskyDecomposition(A)
+print(cd.decompose())
