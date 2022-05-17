@@ -37,4 +37,3 @@ class CholeskyDecomposition:
           self.A[i][j] = 0
       
       return self.A
-
