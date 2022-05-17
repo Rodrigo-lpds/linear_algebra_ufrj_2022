@@ -76,9 +76,3 @@ class LU:
     Y   = self.forward_substitution(L)
     X   = self.backward_substitution(U)
     return X
-
-#A = [[1,2,2],[4,4,2],[4,6,4]]
-#B = [3,6,10]
-
-#obj = LU(A,B)
-#print(obj.solution())
