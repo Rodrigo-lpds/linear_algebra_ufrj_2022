@@ -1,24 +1,42 @@
-#to do
-# check if lu decomposition can be used
 class LU:
   def __init__(self,A,B):
     self.A = A
     self.B = B
+  
+  def check_matrix_width(self):
+    return len(self.A[0]) == len(self.A[1])
+  
+  def calculate_determinant(self, matrix, mul=1):
+
+    n = len(matrix)
+    if n == 1:
+        return mul * matrix[0][0]
+    else:
+        sign = -1
+        determinant = 0
+        for i in range(n):
+            m = []
+            for j in range(1, n):
+                buff = []
+                for k in range(n):
+                    if k != i:
+                        buff.append(matrix[j][k])
+                m.append(buff)
+            sign *= -1
+            determinant += mul * self.calculate_determinant(m, sign * matrix[0][i])
+    return determinant
+
+
+
+  def validates_decomposition(self):
+    is_square = self.check_matrix_width()
+    #check if determinant is nil
+    determinant_ans = self.calculate_determinant(self.A)
+    nil_determinant = 0
+    
+    return is_square and determinant_ans != nil_determinant
 
   def decompose(self):
-    ''' 
-      DO K = 1, N-1
-        DO I = K+1,N
-          A(I,K) = A(I,K)/A(K,K)
-        ENDDO
-        DO J = K+1,N
-          DO I = K+1,N
-            A(I,J) = A(I,J)-A(I,K)*A(K,J)
-          ENDDO
-        ENDDO
-      ENDDO
-      A(N,N)
-    '''
     n = len(self.A)
     for k in range(n):
       for i in range(k+1,n):
@@ -27,8 +45,6 @@ class LU:
       for j in range(k+1,n):
         for i in range(k+1,n):
           self.A[i][j] = self.A[i][j] - self.A[i][k]*self.A[k][j]
-
-    #print(A)
     
     #compose L
     L = [[1,0,0],[0,1,0],[0,0,1]]
@@ -36,8 +52,6 @@ class LU:
       for j in range(i):
         L[i][j] = self.A[i][j]
 
-    #print(L)
-    
     # compose U
     U = [self.A[0],[0,0,0],[0,0,0]]
     for i in range(1,n):
@@ -52,7 +66,6 @@ class LU:
     
     for i in range(1,n):
       sum = 0
-  #    print(Y)
       for j in range(i):
         sum+= L[i][j] * self.Y[j]
       self.Y[i] = (self.B[i]-sum)/L[i][i]
@@ -72,7 +85,11 @@ class LU:
     return X
   
   def solution(self):
-    L,U = self.decompose()
-    Y   = self.forward_substitution(L)
-    X   = self.backward_substitution(U)
-    return X
+    if self.validates_decomposition():
+      L,U = self.decompose()
+      Y   = self.forward_substitution(L)
+      X   = self.backward_substitution(U)
+      
+      return X
+    else:
+      return "Não é possivel fazer a decomposição"
