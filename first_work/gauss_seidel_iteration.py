@@ -1,9 +1,6 @@
 # read Slide 4 for references
 #to do 
-# check if converges
-# calculate normal 
-# split sum loops into separate functions
-# check if iteration can be done
+# calculate normal based on TOLm
 import math
 
 class GaussSeidelIteration:
@@ -15,6 +12,14 @@ class GaussSeidelIteration:
     self.X_0 = [1,1,1]
     self.X_1 = [0,0,0]
     self.R = 0
+
+  def check_convergence(self):
+    #Diagonally dominant matrix
+    for i in range(0,len(self.A)):
+      for j in range(0,len(self.A)):
+        if i!=j and (abs(self.A[i][i]) < abs(self.A[i][j]) or abs(self.A[i][i]) < abs(self.A[j][i])):
+          return False
+    return True
 
   def calculate_solutions(self):
     for i in range(len(self.X_0)):

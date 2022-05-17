@@ -1,9 +1,6 @@
 # read Slide 4 for references
 #to do 
-# check if converges
-# calculate normal 
-# split sum loops into separate functions
-# check if iteration can be done
+# calculate normal based on TOLm
 import math 
 
 class JacobiIterationMethod:
@@ -16,7 +13,16 @@ class JacobiIterationMethod:
     self.X_1 = [0,0,0]
     self.R = 0
 
-  def calculate_solutions(self):
+  def check_convergence(self):
+    #Diagonally dominant matrix
+    for i in range(0,len(self.A)):
+      for j in range(0,len(self.A)):
+        if i!=j and (abs(self.A[i][i]) < abs(self.A[i][j]) or abs(self.A[i][i]) < abs(self.A[j][i])):
+          return False
+    return True
+
+  def calculate_solution(self):
+    
     for i in range(len(self.X_0)):
       generic_sum = 0
       for j in range(0,len(self.X_0)):
@@ -27,11 +33,22 @@ class JacobiIterationMethod:
     return self.X_1
 
 
-  def calculate_normal(X_0,X_1):
+  def calculate_normal(self):
     sum_0 = 0
     sum_1 = 0
-    for i in range(0,len(X_0)):
-      sum_0 += (X_1[i] - X_0[i])**2
-      sum_1 += X_1[i] ** 2
+    for i in range(0,len(self.X_0)):
+      sum_0 += (self.X_1[i] - self.X_0[i])**2
+      sum_1 += self.X_1[i] ** 2
     
-    return math.sqrt(sum_0)/math.sqrt(sum_1)
+    self.R = math.sqrt(sum_0)/math.sqrt(sum_1)
+    return self.R
+
+  def calculate_solutions(self):
+    self.calculate_solution()
+    self.calculate_normal()
+    while self.R > self.TOLm:
+      self.X_0 = self.X_1
+      self.calculate_solution()
+      self.calculate_normal()
+    
+    return self.X_1, self.R
