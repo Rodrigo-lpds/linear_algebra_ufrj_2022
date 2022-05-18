@@ -21,26 +21,37 @@ class GaussSeidelIteration:
           return False
     return True
 
-  def calculate_solutions(self):
-    for i in range(len(self.X_0)):
+  def calculate_solution(self,X_0,X_1):
+    for i in range(len(X_0)):
       sum_with_new_X = 0
       sum_with_old_X = 0
       for j in range(i):
-        sum_with_new_X += self.A[i][j] * self.X_1[j]
+        sum_with_new_X += self.A[i][j] * X_1[j]
       for j in range(i+1,len(self.A)):
-        sum_with_old_X += self.A[i][j] * self.X_0[j]
+        sum_with_old_X += self.A[i][j] * X_0[j]
 
-      self.X_1[i] = (self.B[i]-sum_with_new_X - sum_with_old_X) / self.A[i][i]
+      X_1[i] = (self.B[i]-sum_with_new_X - sum_with_old_X) / self.A[i][i]
     
-    return self.X_1
-  #print(solutions)
-  #if solutions+1 != 2:
-  #  X_0 = X_1
-  def calculate_normal(self):
+    return X_0,X_1
+
+  def calculate_normal(self,X_0,X_1):
     sum_0 = 0
     sum_1 = 0
-    for i in range(0,len(self.X_0)):
-      sum_0 += (self.X_1[i] - self.X_0[i])**2
-      sum_1 += self.X_1[i] ** 2
+    for i in range(0,len(X_0)):
+      sum_0 += (X_1[i] - X_0[i])**2
+      sum_1 += X_1[i] ** 2
     
-    return math.sqrt(sum_0)/math.sqrt(sum_1)
+    self.R = math.sqrt(sum_0)/math.sqrt(sum_1)
+    return self.R
+  
+  def calculate_solutions(self):
+    X_0, X_1 = self.calculate_solution(self.X_0,self.X_1)
+    self.calculate_normal(X_0, X_1)
+    while self.R > self.TOLm:
+      X_0 = X_1
+      X_1 = [0,0,0]
+      X_0, X_1 = self.calculate_solution(X_0,X_1)
+   
+      self.calculate_normal(X_0, X_1)
+    
+    return X_0, X_1, self.R

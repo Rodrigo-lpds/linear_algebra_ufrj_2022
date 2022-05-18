@@ -21,34 +21,35 @@ class JacobiIterationMethod:
           return False
     return True
 
-  def calculate_solution(self):
-    
-    for i in range(len(self.X_0)):
+  def calculate_solution(self,X_0,X_1):
+    for i in range(len(X_0)):
       generic_sum = 0
-      for j in range(0,len(self.X_0)):
+      for j in range(0,len(X_0)):
           if j != i:
-            generic_sum += self.A[i][j] * self.X_0[j]
-      self.X_1[i] = (self.B[i] - generic_sum) / self.A[i][i]
+            generic_sum += self.A[i][j] * X_0[j]
+      X_1[i] = (self.B[i] - generic_sum) / self.A[i][i]
 
-    return self.X_1
+    return X_0,X_1
 
 
-  def calculate_normal(self):
+  def calculate_normal(self,X_0,X_1):
     sum_0 = 0
     sum_1 = 0
-    for i in range(0,len(self.X_0)):
-      sum_0 += (self.X_1[i] - self.X_0[i])**2
-      sum_1 += self.X_1[i] ** 2
+    for i in range(0,len(X_0)):
+      sum_0 += (X_1[i] - X_0[i])**2
+      sum_1 += X_1[i] ** 2
     
     self.R = math.sqrt(sum_0)/math.sqrt(sum_1)
     return self.R
 
   def calculate_solutions(self):
-    self.calculate_solution()
-    self.calculate_normal()
+    X_0, X_1 = self.calculate_solution(self.X_0,self.X_1)
+    self.calculate_normal(X_0, X_1)
     while self.R > self.TOLm:
-      self.X_0 = self.X_1
-      self.calculate_solution()
-      self.calculate_normal()
+      X_0 = X_1
+      X_1 = [0,0,0]
+      X_0, X_1 = self.calculate_solution(X_0,X_1)
+   
+      self.calculate_normal(X_0, X_1)
     
-    return self.X_1, self.R
+    return X_0, X_1, self.R
