@@ -1,9 +1,9 @@
 class LagrangeInterpolation:
-  def __init__(self,A,x):
+  def __init__(self,A,n,x):
     self.A = A
     self.x = x
     #coordinates 
-    self.n = len(A[0])
+    self.n = n
     self.X = self.A[0]
     self.Y = self.A[1]
 
