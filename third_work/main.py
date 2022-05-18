@@ -1,20 +1,20 @@
+from re import X
 from multilinear_regression import MultilinearRegression
 from lagrange_interpolation import LagrangeInterpolation
+from read_dat_file import ReadDatFile
 
-ICOD = input("Digite 1 para escolher interpolacao de lagrange ou 2 para regressao multilinear  ")
-print(ICOD)
-
-#coordinates = input("Coordinates")
-
-A = [[1,2.5,4],[2,3.5,8]]
-
-x = input("Digite a coordenada x para ser estimada  ")
+file  = ReadDatFile("EXEMPLO_01.dat")
+data  = file.read_file()
+ICOD  = file.get_ICOD(data)
+N     = file.get_N(data)
+A     = file.get_points(data)
+X     = file.get_X(data)
 
 if ICOD == "1":
-  lagrange = LagrangeInterpolation(A, float(x))
-  print(lagrange.estimate_value())
+ lagrange = LagrangeInterpolation(A, N, X)
+ print(lagrange.estimate_value())
 elif ICOD == "2":
-  multi = MultilinearRegression(A, float(x))
+  multi = MultilinearRegression(A, N, X)
   print(multi.estimate_value())
 
 
