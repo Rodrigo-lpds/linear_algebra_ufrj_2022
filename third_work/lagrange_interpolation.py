@@ -9,10 +9,6 @@ class LagrangeInterpolation:
 
   def build_matrix(self):
     P = [[0 for i in range(self.n)] for j in range(self.n)]
-
-    # (x-xi) * (x-xj) = (x**2 -x*xj - x*xi + xi*xj)
-    # [xi*xj, -x*xj - x*xi, x**2]
-    # [[0, -1, 1],[-2,1,1],[0,2,1]]
     #make the equation matrix
     for i in range(self.n):
       P[i][0] = 1 # for the multiply below doesn't zeroed
@@ -21,7 +17,7 @@ class LagrangeInterpolation:
         if i != k:
           P[i][0]  *= self.X[k] 
           P[i][1]  += -(self.X[k])
-          P[i][2]  = 1
+          P[i][2]   = 1
           divisor  *= (self.X[i]- self.X[k]) 
       for k in range(self.n): #Divisor Product
         P[i][k]  = P[i][k]/divisor * self.Y[i]

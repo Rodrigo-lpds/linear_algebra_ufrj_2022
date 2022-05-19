@@ -7,7 +7,6 @@ class LU:
     return len(self.A[0]) == len(self.A[1])
   
   def calculate_determinant(self, matrix, mul=1):
-
     n = len(matrix)
     if n == 1:
         return mul * matrix[0][0]
@@ -26,11 +25,8 @@ class LU:
             determinant += mul * self.calculate_determinant(m, sign * matrix[0][i])
     return determinant
 
-
-
   def validates_decomposition(self):
     is_square = self.check_matrix_width()
-    #check if determinant is nil
     determinant_ans = self.calculate_determinant(self.A)
     nil_determinant = 0
     
@@ -89,7 +85,6 @@ class LU:
       L,U = self.decompose()
       Y   = self.forward_substitution(L)
       X   = self.backward_substitution(U)
-      
       return X
     else:
       return "Não é possivel fazer a decomposição"

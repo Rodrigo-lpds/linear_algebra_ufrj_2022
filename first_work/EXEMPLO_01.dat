@@ -1,0 +1,12 @@
+# ICOD 1-LU. 2. Cholesky 3.Gauss Seidel 4.Jacobi
+1
+# N número do sistema de equacoes
+3
+# Matriz (A)
+1 2 2
+4 4 2
+4 6 4
+# Matriz B
+3
+6
+10

@@ -1,24 +1,64 @@
+#import OS
+import os
 from lu_decomposition import LU
 from cholesky_decomposition import CholeskyDecomposition
-from gauss_seidel_iteration import GaussSeidelIteration
 from jacobi_iteration_method import JacobiIterationMethod
+from gauss_seidel_iteration import GaussSeidelIteration
+from read_dat_file import ReadDatFile
 
-A = [[1,2,2],[4,4,2],[4,6,4]]
-B = [3,6,10]
-obj = LU(A,B)
-print(obj.solution())
+dat_files = []
+for x in os.listdir():
+  if x.endswith(".dat") and x.startswith("EXEMPLO"):
+    dat_files.append(x)
 
-A = [[1,0.2,0.4],[0.2,1,0.5],[0.4,0.5,1]]
-cd = CholeskyDecomposition(A)
-print(cd.decompose())
+for file in dat_files:
+  dat_file  = ReadDatFile(file)
+  data      = dat_file.read_file()
 
-A = [[3,-1,-1],[-1,3,-1],[-1,-1, 3]]
-B = [1,2,1]
-gc = GaussSeidelIteration(3,A,B,0)
-print(gc.calculate_solutions())
+  ICOD  = dat_file.get_ICOD(data)
+  N     = dat_file.get_N(data)
+  A     = dat_file.get_matrix_A(data)
+  B     = dat_file.get_matrix_B(data)
+  TOLm  = dat_file.get_TOLm(data)
 
-A = [[3,-1,-1],[-1,3,-1],[-1,-1, 3]]
-B = [1,2,1]
+  if ICOD == "1":
+    obj = LU(A,B)
+    f = open("saida_lu.dat", "a")
+    f.write("Matriz A = ")
+    f.write(str(A)+"\n")
+    f.write("Matriz B = ")
+    f.write(str(B)+"\n")
+    f.write("solucao = ")
+    f.write(str(obj.solution())+"\n")
+    f.close()
+  elif ICOD == "2":
+    obj = CholeskyDecomposition(A,B)
+    f = open("saida_cholesky.dat", "a")
+    f.write("Matriz A = ")
+    f.write(str(A)+"\n")
+    f.write("Matriz B = ")
+    f.write(str(B)+"\n")
+    f.write("solucao = ")
+    f.write(str(obj.solution())+"\n")
+    f.close()
 
-ji = JacobiIterationMethod(3,A,B,0)
-print(ji.calculate_solutions())
+  elif ICOD == "3":
+    obj = GaussSeidelIteration(N,A,B,TOLm)
+    f = open("saida_gaus.dat", "a")
+    f.write("Matriz A = ")
+    f.write(str(A)+"\n")
+    f.write("Matriz B = ")
+    f.write(str(B)+"\n")
+    f.write("solucao = ")
+    f.write(str(obj.calculate_solutions())+"\n")
+    f.close()
+  elif ICOD == "4":
+    obj = JacobiIterationMethod(N,A,B,TOLm)
+    f = open("saida_jacobi.dat", "a")
+    f.write("Matriz A = ")
+    f.write(str(A)+"\n")
+    f.write("Matriz B = ")
+    f.write(str(B)+"\n")
+    f.write("solucao = ")
+    f.write(str(obj.calculate_solutions())+"\n")
+    f.close()

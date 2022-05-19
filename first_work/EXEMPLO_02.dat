@@ -1,0 +1,14 @@
+# ICOD 1-LU. 2. Cholesky 3.Gauss Seidel 4.Jacobi
+3
+# N número do sistema de equacoes
+3
+# Matriz (A)
+3 -1 -1
+-1 3 -1
+-1 -1 3
+# Matriz B
+1
+2
+1
+# Tolerancia
+0.0007
